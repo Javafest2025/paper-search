@@ -1,0 +1,58 @@
+# Environment files
+.env
+.env.*
+!*.example
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+
+# Log files
+*.log
+*.log.*
+
+# Temp files
+*.tmp
+*.tmp.*
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# MyPy and coverage
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Dependency management
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Optional: ignore SQLite DB files
+*.sqlite3
+*.db
+
+# Optional: if using Docker
+*.pid
+*.sock
