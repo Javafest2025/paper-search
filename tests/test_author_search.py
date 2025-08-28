@@ -1,69 +1,148 @@
 """
-Test author search functionality.
+Tests for Author Search API endpoints
 """
 
-import asyncio
 import pytest
-from app.api.api_v1.authors import AuthorSearchService, AuthorResponse
+import httpx
+from unittest.mock import AsyncMock, patch
+from app.api.api_v1.authors import SemanticScholarAuthorService, AuthorSearchRequest
 
-@pytest.mark.asyncio
-async def test_author_search_service():
-    """Test the author search service with a well-known author."""
-    service = AuthorSearchService()
-    
-    # Test with a well-known author
-    author_data = await service.search_author("Yann LeCun")
-    
-    # Verify the response structure
-    assert isinstance(author_data, AuthorResponse)
-    assert author_data.name == "Yann LeCun"
-    assert author_data.paper_count > 0
-    assert len(author_data.sources) > 0
-    assert author_data.confidence_score > 0.0
-    assert author_data.last_updated is not None
 
-@pytest.mark.asyncio
-async def test_author_search_unknown_author():
-    """Test the author search service with an unknown author."""
-    service = AuthorSearchService()
-    
-    # Test with a very specific non-existent author name
-    author_data = await service.search_author("XyZ123NonExistentAuthor456")
-    
-    # Should return empty results but not crash
-    assert isinstance(author_data, AuthorResponse)
-    assert author_data.name == "XyZ123NonExistentAuthor456"
-    # Note: Some APIs might return results for partial matches, so we just check structure
-    assert author_data.confidence_score >= 0.0
-    assert author_data.last_updated is not None
+@pytest.fixture
+def author_service():
+    return SemanticScholarAuthorService()
 
-@pytest.mark.asyncio
-async def test_author_search_multiple_sources():
-    """Test that the service searches multiple sources."""
-    service = AuthorSearchService()
-    
-    # Test with a well-known author
-    author_data = await service.search_author("Geoffrey Hinton")
-    
-    # Should have data from multiple sources
-    assert isinstance(author_data, AuthorResponse)
-    assert author_data.name == "Geoffrey Hinton"
-    assert author_data.paper_count > 0
-    assert len(author_data.sources) >= 1  # At least one source should work
-    assert author_data.confidence_score > 0.0
 
-def test_author_response_model():
-    """Test the AuthorResponse model."""
-    from datetime import datetime
+@pytest.fixture
+def mock_response():
+    return {
+        "total": 15117,
+        "offset": 0,
+        "next": 100,
+        "data": [
+            {
+                "authorId": "1741101",
+                "name": "Oren Etzioni",
+                "url": "https://www.semanticscholar.org/author/1741101",
+                "affiliations": ["Allen Institute for AI"],
+                "homepage": "https://allenai.org/",
+                "paperCount": 10,
+                "citationCount": 50,
+                "hIndex": 5,
+                "externalIds": {
+                    "DBLP": [123]
+                },
+                "papers": [
+                    {
+                        "paperId": "5c5751d45e298cea054f32b392c12c61027d2fe7",
+                        "corpusId": 215416146,
+                        "title": "Construction of the Literature Graph in Semantic Scholar",
+                        "year": 2020,
+                        "citationCount": 453,
+                        "venue": "Annual Meeting of the Association for Computational Linguistics"
+                    }
+                ]
+            }
+        ]
+    }
+
+
+class TestSemanticScholarAuthorService:
+    """Test the Semantic Scholar Author Service"""
     
-    # Test with minimal data
-    response = AuthorResponse(
-        name="Test Author",
-        last_updated=datetime.now().isoformat(),
-        sources=["test"],
-        confidence_score=0.5
-    )
+    @pytest.mark.asyncio
+    async def test_search_authors_success(self, author_service, mock_response):
+        """Test successful author search"""
+        with patch('httpx.AsyncClient.get') as mock_get:
+            mock_response_obj = AsyncMock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            mock_get.return_value = mock_response_obj
+            
+            result = await author_service.search_authors(
+                query="Oren Etzioni",
+                limit=10,
+                fields="name,affiliations,url"
+            )
+            
+            assert result == mock_response
+            mock_get.assert_called_once()
     
-    assert response.name == "Test Author"
-    assert response.confidence_score == 0.5
-    assert "test" in response.sources
+    @pytest.mark.asyncio
+    async def test_search_authors_with_defaults(self, author_service, mock_response):
+        """Test author search with default parameters"""
+        with patch('httpx.AsyncClient.get') as mock_get:
+            mock_response_obj = AsyncMock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            mock_get.return_value = mock_response_obj
+            
+            result = await author_service.search_authors(query="test")
+            
+            assert result == mock_response
+            # Verify default parameters were used
+            call_args = mock_get.call_args
+            assert call_args[1]['params']['limit'] == 100
+            assert call_args[1]['params']['offset'] == 0
+    
+    @pytest.mark.asyncio
+    async def test_search_authors_limit_validation(self, author_service):
+        """Test that limit is properly validated"""
+        with patch('httpx.AsyncClient.get') as mock_get:
+            mock_response_obj = AsyncMock()
+            mock_response_obj.json.return_value = {"total": 0, "data": []}
+            mock_response_obj.raise_for_status.return_value = None
+            mock_get.return_value = mock_response_obj
+            
+            # Test with limit > 1000 (should be capped)
+            await author_service.search_authors(query="test", limit=1500)
+            
+            call_args = mock_get.call_args
+            assert call_args[1]['params']['limit'] == 1000
+    
+    @pytest.mark.asyncio
+    async def test_search_authors_offset_validation(self, author_service):
+        """Test that offset is properly validated"""
+        with patch('httpx.AsyncClient.get') as mock_get:
+            mock_response_obj = AsyncMock()
+            mock_response_obj.json.return_value = {"total": 0, "data": []}
+            mock_response_obj.raise_for_status.return_value = None
+            mock_get.return_value = mock_response_obj
+            
+            # Test with negative offset (should be set to 0)
+            await author_service.search_authors(query="test", offset=-10)
+            
+            call_args = mock_get.call_args
+            assert call_args[1]['params']['offset'] == 0
+
+
+class TestAuthorSearchRequest:
+    """Test the AuthorSearchRequest model"""
+    
+    def test_valid_request(self):
+        """Test valid request creation"""
+        request = AuthorSearchRequest(
+            query="Oren Etzioni",
+            limit=50,
+            offset=10,
+            fields="name,affiliations"
+        )
+        
+        assert request.query == "Oren Etzioni"
+        assert request.limit == 50
+        assert request.offset == 10
+        assert request.fields == "name,affiliations"
+    
+    def test_default_values(self):
+        """Test default values"""
+        request = AuthorSearchRequest(query="test")
+        
+        assert request.query == "test"
+        assert request.limit == 100
+        assert request.offset == 0
+        assert "name" in request.fields
+        assert "affiliations" in request.fields
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

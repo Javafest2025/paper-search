@@ -25,6 +25,8 @@ from app.core import settings
 from app.services.rabbitmq_consumer import consumer
 from app.services.websearch_agent import WebSearchAgent
 from app.services.pdf_processor import pdf_processor
+from app.api.api_v1.authors import router as authors_router
+from app.api.api_v1.arxiv_test import router as arxiv_test_router
 
 # Configure logging
 logging.basicConfig(
@@ -99,6 +101,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include API routers
+app.include_router(authors_router, prefix="/api/v1/authors", tags=["authors"])
+app.include_router(arxiv_test_router, prefix="/api/v1/arxiv", tags=["arxiv-test"])
 
 
 # Pydantic models for API
@@ -221,7 +227,7 @@ if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=8001,
         reload=False,
         log_level="info"
     )
