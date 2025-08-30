@@ -1,41 +1,8 @@
-# =============================================================================
-# DOCKER IGNORE CONFIGURATION
-# =============================================================================
-# Optimized to minimize Docker image size and build time
-# =============================================================================
-
-# -----------------------------------------------------------------------------
-# VERSION CONTROL
-# -----------------------------------------------------------------------------
-.git
-.gitignore
-.gitattributes
-
-# -----------------------------------------------------------------------------
-# DOCKER FILES (not needed in container)
-# -----------------------------------------------------------------------------
-Dockerfile*
-docker-compose*.yml
-.dockerignore
-docker.sh
-docker/
-
-# -----------------------------------------------------------------------------
-# PYTHON VIRTUAL ENVIRONMENTS
-# -----------------------------------------------------------------------------
-.venv/
-venv/
-*/.venv/
-*/venv/
-.poetry_cache/
-
-# -----------------------------------------------------------------------------
-# PYTHON CACHE AND BUILD FILES
-# -----------------------------------------------------------------------------
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
 .Python
 build/
 develop-eggs/
@@ -49,47 +16,27 @@ parts/
 sdist/
 var/
 wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
 
-# -----------------------------------------------------------------------------
-# IDE AND EDITOR FILES
-# -----------------------------------------------------------------------------
-.vscode/
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE and editor files
 .idea/
-*.sublime-project
-*.sublime-workspace
+.vscode/
 *.swp
 *.swo
 *~
+.DS_Store
 
-# -----------------------------------------------------------------------------
-# TESTING AND COVERAGE
-# -----------------------------------------------------------------------------
-pytest.ini
-.pytest_cache/
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
-.hypothesis/
-.tox/
-.nox/
-
-# -----------------------------------------------------------------------------
-# ENVIRONMENT FILES
-# -----------------------------------------------------------------------------
-.env
-.env.*
-!.env.example
-
-# -----------------------------------------------------------------------------
-# OPERATING SYSTEM FILES
-# -----------------------------------------------------------------------------
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -98,46 +45,65 @@ coverage.xml
 ehthumbs.db
 Thumbs.db
 
-# -----------------------------------------------------------------------------
-# LOGS AND TEMPORARY FILES
-# -----------------------------------------------------------------------------
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Logs
 *.log
 logs/
+
+# Environment files
+.env
+.env.*
+!env.example
+
+# Test files
+tests/
+test_*.py
+*_test.py
+.pytest_cache/
+
+# Temporary files
 *.tmp
 *.temp
-*.pid
-*.seed
-*.pid.lock
+*.bak
+*.backup
 
-# -----------------------------------------------------------------------------
-# DOCUMENTATION (if not needed in production)
-# -----------------------------------------------------------------------------
-docs/
-*.md
-!README.md
+# Example files
+example/
 
-# -----------------------------------------------------------------------------
-# DEVELOPMENT AND TOOLING
-# -----------------------------------------------------------------------------
-.pre-commit-config.yaml
-.flake8
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.ruff_cache/
-commands.txt
-
-# -----------------------------------------------------------------------------
-# NODE.JS (if any frontend tools are present)
-# -----------------------------------------------------------------------------
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# -----------------------------------------------------------------------------
-# SCRIPTS AND UTILITIES (development only)
-# -----------------------------------------------------------------------------
+# Scripts (keep only necessary ones)
 scripts/
-*.sh
-!docker-entrypoint.sh
+!scripts/docker.sh
+
+# Cache
+.cache/
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock

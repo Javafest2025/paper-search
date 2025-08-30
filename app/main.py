@@ -158,7 +158,7 @@ async def health_check():
         status="healthy",
         service="paper-search",
         version="1.0.0",
-        rabbitmq_connected=consumer.connection_manager.is_healthy() if consumer.connection_manager else False,
+        rabbitmq_connected=consumer.consumer.connection_manager.is_healthy() if consumer.consumer and consumer.consumer.connection_manager else False,
         websearch_agent_ready=websearch_agent is not None,
         pdf_processor_ready=pdf_processor.is_initialized if hasattr(pdf_processor, 'is_initialized') else False
     )
