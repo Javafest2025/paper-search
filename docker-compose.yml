@@ -15,11 +15,44 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - RABBITMQ_HOST=user-rabbitmq
       - RABBITMQ_PORT=5672
+
+      # Keep native libs from spawning lots of threads
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - NUMEXPR_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
+
+      # Optional: faster container boot logs
+      - PYTHONUNBUFFERED=1
+
     volumes:
       - ./logs:/app/logs
+
     networks:
       - scholarai-network
     restart: unless-stopped
+
+    # Resource caps (lightweight service)
+    cpus: 0.5
+    mem_limit: 512m
+    mem_reservation: 256m
+    pids_limit: 256
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+    # Run Uvicorn with small, steady concurrency
+    # (Overrides any CMD in the Dockerfile)
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0 --port 8001
+      --workers 1
+      --limit-concurrency 16
+      --timeout-keep-alive 10
+      --limit-max-requests 500
+      --no-access-log
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
       interval: 30s
@@ -27,7 +60,6 @@ services:
       retries: 3
       start_period: 60s
 
-# Connect to existing network from main orchestration
 networks:
   scholarai-network:
     external: true
