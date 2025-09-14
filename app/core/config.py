@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     b2_application_key: Optional[str] = Field(default=None, description="Backblaze B2 application key")
     b2_bucket_name: Optional[str] = Field(default=None, description="Backblaze B2 bucket name")
     b2_bucket_id: Optional[str] = Field(default=None, description="Backblaze B2 bucket id")
-    gemini_api_key: Optional[str] = Field(default=None, description="Gemini API key")
+    ps_gemini_api_key: Optional[str] = Field(default=None, description="Paper Search Gemini API key")
     s2_api_key: Optional[str] = Field(default=None, description="Semantic Scholar API key")
 
     # Pydantic v2 settings config
