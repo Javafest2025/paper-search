@@ -4,6 +4,13 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: scholar-paper-search
+
+    # 🏷️ Add metadata labels for cleanup & observability
+    labels:
+      service: "paper-search"
+      maintainer: "ScholarAI <dev@scholarai.local>"
+      version: "0.0.1-SNAPSHOT"
+      description: "Paper Search AI Agent for ScholarAI"
     env_file:
       - /opt/scholarai/envs/paper-search.env
     ports:
