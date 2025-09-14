@@ -37,7 +37,7 @@ class AIConfig:
     def __post_init__(self):
         if self.api_key is None:
             self.api_key = os.getenv(
-                "GEMINI_API_KEY", "AIzaSyAX4osMXYhYTMUYuDPBGEWAEwbX7VslByg"
+                "PS_GEMINI_API_KEY", "AIzaSyAX4osMXYhYTMUYuDPBGEWAEwbX7VslByg"
             )
 
 
