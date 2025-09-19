@@ -1,0 +1,105 @@
+{
+  "timestamp": "2025-09-19 20:26:55",
+  "total_duration": 8.656216144561768,
+  "total_tests": 12,
+  "passed_tests": 0,
+  "failed_tests": 12,
+  "results": {
+    "test_arxiv_endpoint.py": {
+      "script": "test_arxiv_endpoint.py",
+      "success": false,
+      "duration": 0.748795747756958,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_arxiv_endpoint.py\", line 158, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_arxiv_endpoint.py\", line 130, in main\n    print(\"\\U0001f680 Starting arXiv API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_semantic_scholar_endpoint.py": {
+      "script": "test_semantic_scholar_endpoint.py",
+      "success": false,
+      "duration": 0.804619312286377,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_semantic_scholar_endpoint.py\", line 248, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_semantic_scholar_endpoint.py\", line 212, in main\n    print(\"\\U0001f680 Starting Semantic Scholar API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_openalex_endpoint.py": {
+      "script": "test_openalex_endpoint.py",
+      "success": false,
+      "duration": 0.7493016719818115,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_openalex_endpoint.py\", line 342, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_openalex_endpoint.py\", line 298, in main\n    print(\"\\U0001f680 Starting OpenAlex API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_pubmed_endpoint.py": {
+      "script": "test_pubmed_endpoint.py",
+      "success": false,
+      "duration": 0.6470723152160645,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_pubmed_endpoint.py\", line 340, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_pubmed_endpoint.py\", line 296, in main\n    print(\"\\U0001f680 Starting PubMed API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_crossref_endpoint.py": {
+      "script": "test_crossref_endpoint.py",
+      "success": false,
+      "duration": 0.7576296329498291,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_crossref_endpoint.py\", line 386, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_crossref_endpoint.py\", line 338, in main\n    print(\"\\U0001f680 Starting Crossref API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_core_endpoint.py": {
+      "script": "test_core_endpoint.py",
+      "success": false,
+      "duration": 0.8601539134979248,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_core_endpoint.py\", line 339, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_core_endpoint.py\", line 295, in main\n    print(\"\\U0001f680 Starting CORE API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_unpaywall_endpoint.py": {
+      "script": "test_unpaywall_endpoint.py",
+      "success": false,
+      "duration": 0.5870976448059082,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_unpaywall_endpoint.py\", line 340, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_unpaywall_endpoint.py\", line 296, in main\n    print(\"\\U0001f680 Starting Unpaywall API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_europepmc_endpoint.py": {
+      "script": "test_europepmc_endpoint.py",
+      "success": false,
+      "duration": 0.7581210136413574,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_europepmc_endpoint.py\", line 389, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_europepmc_endpoint.py\", line 341, in main\n    print(\"\\U0001f680 Starting Europe PMC API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_dblp_endpoint.py": {
+      "script": "test_dblp_endpoint.py",
+      "success": false,
+      "duration": 0.6992189884185791,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_dblp_endpoint.py\", line 388, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_dblp_endpoint.py\", line 340, in main\n    print(\"\\U0001f680 Starting DBLP API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_biorxiv_endpoint.py": {
+      "script": "test_biorxiv_endpoint.py",
+      "success": false,
+      "duration": 0.6145963668823242,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_biorxiv_endpoint.py\", line 385, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_biorxiv_endpoint.py\", line 337, in main\n    print(\"\\U0001f680 Starting BioRxiv API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_doaj_endpoint.py": {
+      "script": "test_doaj_endpoint.py",
+      "success": false,
+      "duration": 0.7169322967529297,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_doaj_endpoint.py\", line 438, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_doaj_endpoint.py\", line 386, in main\n    print(\"\\U0001f680 Starting DOAJ API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    },
+    "test_base_endpoint.py": {
+      "script": "test_base_endpoint.py",
+      "success": false,
+      "duration": 0.7047080993652344,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_base_endpoint.py\", line 431, in <module>\n    asyncio.run(main())\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\asyncio\\base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\Javafest2025\\ScholarAI\\AI-Agents\\paper-search\\test_base_endpoint.py\", line 379, in main\n    print(\"\\U0001f680 Starting BASE API endpoint tests...\")\n  File \"C:\\Users\\Tasriad Ahmed Tias\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+      "return_code": 1
+    }
+  }
+}

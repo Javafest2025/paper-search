@@ -78,8 +78,6 @@ class MultiSourceSearchOrchestrator:
     def _init_api_clients(self):
         """Initialize all academic API clients"""
         # Initialize clients that don't require API keys
-        from app.core.config import settings
-        
         self.api_clients = {
             "arXiv": ArxivClient(),
             # "Crossref": CrossrefClient(),
@@ -162,6 +160,13 @@ class MultiSourceSearchOrchestrator:
         # Reset deduplication for new search
         self.deduplication_service.reset()
 
+        # Increase target size to compensate for papers that will be discarded due to missing PDFs
+        # Estimate 30-50% of papers might not have PDFs, so we need to collect more
+        pdf_compensation_factor = 2.0  # Collect 2x more papers to ensure we get enough with PDFs
+        enhanced_target_size = int(target_size * pdf_compensation_factor)
+        
+        logger.info(f"🎯 Enhanced target size: {enhanced_target_size} (original: {target_size}) to compensate for PDF requirement")
+
         # Start with original query
         search_queries = [" ".join(query_terms)]
 
@@ -187,15 +192,15 @@ class MultiSourceSearchOrchestrator:
                     f"✅ Query completed in {query_duration:.1f}s: {added_count} new papers added"
                 )
 
-            # Check if target reached
+            # Check if enhanced target reached
             current_count = self.deduplication_service.get_paper_count()
             round_duration = time.time() - round_start_time
             logger.info(
                 f"📊 Round {round_num + 1} completed in {round_duration:.1f}s: {current_count} total papers"
             )
 
-            if current_count >= target_size:
-                logger.info(f"🎉 \033[92mTarget reached: {current_count} papers\033[0m")
+            if current_count >= enhanced_target_size:
+                logger.info(f"🎉 \033[92mEnhanced target reached: {current_count} papers\033[0m")
                 break
 
             # Generate refined queries for next round (if not last round)
@@ -214,23 +219,44 @@ class MultiSourceSearchOrchestrator:
                     logger.info("❌ No refined queries generated, ending search")
                     break
 
-        final_papers = self.deduplication_service.get_papers()[:target_size]
+        # Get all collected papers (up to enhanced target size)
+        all_collected_papers = self.deduplication_service.get_papers()[:enhanced_target_size]
+        logger.info(f"📚 Collected {len(all_collected_papers)} papers before PDF filtering")
 
         # ---- NEW: Enrich missing metadata and rank by relevance ----
-        final_papers = await self.enrichment_service.enrich_papers(final_papers)
-        final_papers = self._rank_papers(final_papers, query_terms)[:target_size]
+        final_papers = await self.enrichment_service.enrich_papers(all_collected_papers)
+        final_papers = self._rank_papers(final_papers, query_terms)
 
-        # ---- Enhanced PDF Processing: Upload PDFs to B2 storage with aggressive collection ----
+        # ---- ENFORCED PDF Processing: Only papers with PDFs are returned ----
         try:
-            logger.info("📄 Processing PDFs for B2 storage...")
+            initial_count = len(final_papers)
+            logger.info(f"📄 ENFORCING PDF REQUIREMENT: Processing {initial_count} papers for PDF collection and B2 storage...")
+            logger.info("🚫 Papers without PDFs will be DISCARDED")
+            
             # Use parallel processing for better performance
             final_papers = await pdf_processor.process_papers_batch_parallel(
                 final_papers, batch_size=8
             )
-            logger.info("✅ PDF processing completed")
+            
+            final_count = len(final_papers)
+            discarded_count = initial_count - final_count
+            
+            if discarded_count > 0:
+                logger.warning(f"⚠️  {discarded_count} papers were DISCARDED due to missing PDFs")
+                logger.info(f"📊 Final result: {final_count} papers with PDFs (from {initial_count} original papers)")
+            else:
+                logger.info(f"✅ All {final_count} papers have PDFs!")
+            
+            # Ensure we don't exceed the original target size
+            if final_count > target_size:
+                final_papers = final_papers[:target_size]
+                logger.info(f"📏 Trimmed to original target size: {target_size} papers")
+                
         except Exception as e:
             logger.error(f"❌ PDF processing failed: {str(e)}")
-            # Continue without PDF processing
+            # If PDF processing fails completely, return empty list (no papers without PDFs)
+            logger.error("🚫 Returning empty result due to PDF processing failure")
+            final_papers = []
         # ------------------------------------------------------------
 
         total_duration = time.time() - search_start_time

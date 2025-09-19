@@ -13,6 +13,9 @@ from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
+# Constants
+HTML_PARSER = "html.parser"
+
 
 class PDFCollectorService:
     """
@@ -21,7 +24,7 @@ class PDFCollectorService:
     """
 
     def __init__(self):
-        self.timeout = 30.0
+        self.timeout = 15.0  # Reduced from 30s to 15s
         self.max_size = 50 * 1024 * 1024  # 50MB
         self.min_size = 1024  # 1KB
 
@@ -41,15 +44,16 @@ class PDFCollectorService:
 
     async def collect_pdf(self, paper: Dict[str, Any]) -> Optional[bytes]:
         """
-        Main method to collect PDF using multiple techniques.
+        OPTIMIZED PDF collection using only effective techniques.
+        Removed methods that consistently fail to improve performance.
 
         Args:
             paper: Paper metadata dictionary
 
         Returns:
-            PDF content as bytes or None if failed
+            PDF content as bytes or None if ALL methods failed
         """
-        logger.info(f"Collecting PDF for: {paper.get('title', 'Unknown')[:50]}...")
+        logger.info(f"🔍 OPTIMIZED PDF collection for: {paper.get('title', 'Unknown')[:50]}...")
 
         # Method 1: Direct PDF URL
         pdf_content = await self._try_direct_urls(paper)
@@ -57,26 +61,26 @@ class PDFCollectorService:
             logger.info("✅ PDF collected via direct URL")
             return pdf_content
 
-        # Method 2: Generate alternative URLs
+        # Method 2: Generate alternative URLs (ArXiv, bioRxiv, PMC)
         pdf_content = await self._try_alternative_urls(paper)
         if pdf_content:
             logger.info("✅ PDF collected via alternative URL")
             return pdf_content
 
-        # Method 3: Web scraping
-        pdf_content = await self._try_web_scraping(paper)
-        if pdf_content:
-            logger.info("✅ PDF collected via web scraping")
-            return pdf_content
-
-        # Method 4: Platform-specific methods
+        # Method 3: Platform-specific methods (ArXiv, bioRxiv, PMC)
         pdf_content = await self._try_platform_specific(paper)
         if pdf_content:
             logger.info("✅ PDF collected via platform-specific method")
             return pdf_content
 
-        logger.warning(
-            f"❌ Failed to collect PDF for: {paper.get('title', 'Unknown')[:50]}"
+        # Method 4: Basic web scraping (only for open access sources)
+        pdf_content = await self._try_web_scraping(paper)
+        if pdf_content:
+            logger.info("✅ PDF collected via web scraping")
+            return pdf_content
+
+        logger.error(
+            f"❌ ALL PDF collection methods failed for: {paper.get('title', 'Unknown')[:50]}"
         )
         return None
 
@@ -177,63 +181,51 @@ class PDFCollectorService:
         return None
 
     async def _try_web_scraping(self, paper: Dict[str, Any]) -> Optional[bytes]:
-        """Try to find PDF links by scraping the paper's webpage."""
+        """Try to find PDF links by scraping the paper's webpage (optimized)."""
         paper_url = paper.get("url") or paper.get("link")
         if not paper_url:
             return None
 
+        # Skip scraping for known paywall sites
+        paywall_domains = [
+            "nature.com", "springer.com", "ieee.org", "sciencedirect.com",
+            "wiley.com", "acm.org", "elsevier.com"
+        ]
+        
+        if any(domain in paper_url.lower() for domain in paywall_domains):
+            logger.debug(f"Skipping web scraping for paywall site: {paper_url}")
+            return None
+
         try:
-            async with httpx.AsyncClient(timeout=self.timeout) as client:
+            async with httpx.AsyncClient(
+                timeout=10.0,  # Reduced timeout
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                }
+            ) as client:
                 response = await client.get(paper_url, follow_redirects=True)
                 response.raise_for_status()
 
-                soup = BeautifulSoup(response.content, "html.parser")
+                soup = BeautifulSoup(response.content, HTML_PARSER)
 
-                # Look for PDF links
+                # Look for PDF links (simplified)
                 pdf_links = []
 
-                # Method 1: Direct PDF links
+                # Only look for direct PDF links
                 for link in soup.find_all("a", href=True):
                     href = link["href"]
-                    if href.lower().endswith(".pdf") or "pdf" in href.lower():
+                    if href.lower().endswith(".pdf"):
                         full_url = urljoin(paper_url, href)
                         pdf_links.append(full_url)
 
-                # Method 2: Look for common PDF button classes/IDs
-                pdf_selectors = [
-                    'a[href*="pdf"]',
-                    ".pdf-download",
-                    ".download-pdf",
-                    "#pdf-link",
-                    'a[title*="PDF"]',
-                    'a[aria-label*="PDF"]',
-                    ".btn-pdf",
-                    ".pdf-btn",
-                ]
-
-                for selector in pdf_selectors:
-                    elements = soup.select(selector)
-                    for element in elements:
-                        href = element.get("href")
-                        if href:
-                            full_url = urljoin(paper_url, href)
-                            pdf_links.append(full_url)
-
-                # Method 3: Look for meta tags with PDF URLs
-                for meta in soup.find_all("meta"):
-                    content = meta.get("content", "")
-                    if content and content.lower().endswith(".pdf"):
-                        full_url = urljoin(paper_url, content)
-                        pdf_links.append(full_url)
-
-                # Try each found PDF link
-                for pdf_url in set(pdf_links):  # Remove duplicates
+                # Try each found PDF link (limit to first 3 to save time)
+                for pdf_url in set(pdf_links)[:3]:
                     pdf_content = await self._download_pdf(pdf_url)
                     if pdf_content:
                         return pdf_content
 
         except Exception as e:
-            logger.warning(f"Web scraping failed for {paper_url}: {str(e)}")
+            logger.debug(f"Web scraping failed for {paper_url}: {str(e)}")
 
         return None
 
@@ -290,7 +282,7 @@ class PDFCollectorService:
                 response = await client.get(abstract_url, follow_redirects=True)
                 response.raise_for_status()
 
-                soup = BeautifulSoup(response.content, "html.parser")
+                soup = BeautifulSoup(response.content, HTML_PARSER)
 
                 # Look for PDF link in the page
                 pdf_link = soup.find("a", {"class": "btn-pdf"}) or soup.find(
@@ -411,6 +403,55 @@ class PDFCollectorService:
                     match = re.search(pattern, url)
                     if match:
                         return match.group(1)
+
+        return None
+
+
+    async def _try_doi_publisher_fallbacks(self, paper: Dict[str, Any]) -> Optional[bytes]:
+        """Try only open access DOI-based publisher URLs."""
+        doi = paper.get("doi")
+        if not doi:
+            return None
+
+        # Clean DOI
+        if doi.startswith("http"):
+            doi = doi.split("doi.org/")[-1] if "doi.org/" in doi else doi.split("dx.doi.org/")[-1]
+
+        # Only try open access publishers that don't require authentication
+        open_access_patterns = [
+            # PLOS (open access)
+            f"https://journals.plos.org/plosone/article/file?id={doi}&type=printable",
+            
+            # BioMed Central (open access)
+            f"https://bmc{doi.split('.')[1]}.biomedcentral.com/track/pdf/{doi}.pdf",
+            
+            # Frontiers (open access)
+            f"https://www.frontiersin.org/articles/{doi}/pdf",
+            
+            # MDPI (open access)
+            f"https://www.mdpi.com/{doi.replace('/', '/')}/pdf",
+        ]
+
+        for url in open_access_patterns:
+            pdf_content = await self._download_pdf(url)
+            if pdf_content:
+                return pdf_content
+
+        return None
+
+    async def _try_semantic_scholar_fallbacks(self, paper: Dict[str, Any]) -> Optional[bytes]:
+        """Try Semantic Scholar PDF links if available."""
+        # Try Semantic Scholar PDF links if available
+        ss_id = paper.get("semanticScholarId") or paper.get("paperId")
+        if ss_id:
+            ss_urls = [
+                f"https://pdfs.semanticscholar.org/{ss_id}.pdf",
+            ]
+            
+            for url in ss_urls:
+                pdf_content = await self._download_pdf(url)
+                if pdf_content:
+                    return pdf_content
 
         return None
 
